@@ -8,7 +8,9 @@ import { compareHand, generateRandomHand } from './utils';
 
 
 function getResult(me, other) {
+  
   const comparison = compareHand(me, other);
+
   if (comparison > 0) {
     return '승리';
   } 
@@ -23,12 +25,15 @@ function App() {
   let [otherHand,setOtherHand] = React.useState("rock");
   let [history, setHistory] = React.useState([]);
 
-
   const handleButtonClick = (nextHand) => {
+    const nextOtherHand = generateRandomHand();
+    const nextHistory = getResult(nextHand, nextOtherHand)
+    
     setHand(nextHand);
-    setOtherHand(generateRandomHand());
-  }
+    setOtherHand(nextOtherHand);
 
+    setHistory([...history, nextHistory])
+  }
 
   const handleClearClick = () => {
     setHand("rock")
@@ -36,24 +41,23 @@ function App() {
     setHistory([])
   }
 
-
   return (
     <div className="App">
-            <p>{getResult(hand,otherHand)}</p>
+      <p>{getResult(hand,otherHand)}</p>
       <div>
-        <Button name ="처음부터" onClick = {handleClearClick} />
+        <Button name ="초기화" onClick = {handleClearClick} />
       </div>
       <div>
         <HandIcon value = {hand}></HandIcon>
         VS
         <HandIcon value = {otherHand}></HandIcon>
-      </div> 
+      </div>
+      <p>게임 기록 : {history.join(",")}</p> 
       <div>
         <HandButton value="rock" onClick={handleButtonClick} />
         <HandButton value="scissor" onClick={handleButtonClick} />
         <HandButton value="paper" onClick={handleButtonClick} />
       </div>
-      <p>{history}</p>
     </div>
   );
 }
