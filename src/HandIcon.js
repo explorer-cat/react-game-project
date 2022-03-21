@@ -14,8 +14,6 @@ function HandIcon(props) {
       "scissor" : scissorImg,
       "paper" : paperImg
   }
-
-  console.log("result.props",props.value)
   return <img src = {result[props.value]} alt = {result[props]}/>;
 
 }
